@@ -29,7 +29,7 @@ trait ClearElasticsearch
 
         $names = array_map(fn ($data) => $data['index'], $response->json());
 
-        $nameChunks = array_chunk($names, 50);
+        $nameChunks = array_chunk(array_filter($names, fn ($name) => !str_starts_with($name, '.')), 50);
 
         //Delete indices
         foreach ($nameChunks as $chunk) {
@@ -49,5 +49,8 @@ trait ClearElasticsearch
 
         //Delete index templates
         $this->templateAPICall('*', 'DELETE');
+
+        //Delete pipelines
+        $this->ingestAPICall('*', 'DELETE');
     }
 }
