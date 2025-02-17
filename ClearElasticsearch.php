@@ -8,6 +8,7 @@ use Sigmie\Base\APIs\API;
 use Sigmie\Base\APIs\Cat;
 use Sigmie\Base\APIs\Cluster;
 use Sigmie\Base\APIs\Index;
+use Sigmie\Base\APIs\Ingest;
 use Sigmie\Base\APIs\Script;
 use Sigmie\Base\APIs\Template;
 use Sigmie\Base\Contracts\ElasticsearchConnection;
@@ -20,6 +21,7 @@ trait ClearElasticsearch
     use Script;
     use Cluster;
     use Template;
+    use Ingest;
 
     protected function clearElasticsearch(ElasticsearchConnection $connection): void
     {
