@@ -29,6 +29,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
+        Sigmie::$plugins = [];
+
         $this->jsonClient = JSONClient::create(['localhost:9200']);
 
         $this->elasticsearchConnection = new ElasticsearchConnection($this->jsonClient);
