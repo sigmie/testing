@@ -37,9 +37,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->loadEnv();
 
-        $this->elasticsearchPlugins = explode(',', getenv('ELASTICSEARCH_PLUGINS'));
+        $this->elasticsearchPlugins = explode(',', getenv('ELASTICSEARCH_PLUGINS')) ?? [];
 
-        Sigmie::$version = ElasticsearchVersion::from(getenv('ELASTICSEARCH_VERSION'));
+        Sigmie::$version = ElasticsearchVersion::from(getenv('ELASTICSEARCH_VERSION')) ?? ElasticsearchVersion::v7;
 
         $this->jsonClient = JSONClient::create(['localhost:9200']);
 
