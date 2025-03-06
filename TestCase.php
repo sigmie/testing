@@ -9,9 +9,11 @@ use Sigmie\Base\APIs\Analyze;
 use Sigmie\Base\APIs\Explain;
 use Sigmie\Base\Http\ElasticsearchConnection;
 use Sigmie\Document\Actions as DocumentActions;
+use Sigmie\Enums\ElasticsearchVersion;
 use Sigmie\Http\JSONClient;
 use Sigmie\Index\Actions as IndexAction;
 use Sigmie\Sigmie;
+use Symfony\Component\Dotenv\Dotenv;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -25,11 +27,19 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected JSONClient $jsonClient;
 
+    protected array $elasticsearchPlugins = [];
+
     public function setUp(): void
     {
         parent::setUp();
 
         Sigmie::$plugins = [];
+
+        $this->loadEnv();
+
+        $this->elasticsearchPlugins = explode(',', getenv('ELASTICSEARCH_PLUGINS'));
+
+        Sigmie::$version = ElasticsearchVersion::from(getenv('ELASTICSEARCH_VERSION'));
 
         $this->jsonClient = JSONClient::create(['localhost:9200']);
 
@@ -45,6 +55,21 @@ class TestCase extends \PHPUnit\Framework\TestCase
         // before running a new test
         Carbon::setTestNow();
     }
+
+    protected function skipIfElasticsearchPluginNotInstalled(string $plugin)
+    {
+        if (!in_array($plugin, $this->elasticsearchPlugins)) {
+            $this->markTestSkipped("Elasticsearch plugin {$plugin} is not installed");
+        }
+    }
+
+    public function loadEnv()
+    {
+        $dotenv = new Dotenv();
+        $dotenv->usePutenv(true);
+        $dotenv->loadEnv($GLOBALS['_composer_bin_dir'] . '/../../.env', overrideExistingVars: true);
+    }
+
 
     public function tearDown(): void
     {
