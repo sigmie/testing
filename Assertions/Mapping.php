@@ -40,6 +40,13 @@ trait Mapping
         $this->assertEquals($this->data['mappings']['properties'][$property]['meta'][$key], $value, "Failed to assert that mapping property '{$property}' meta '{$key}' has value '{$value}' in index {$this->name}.");
     }
 
+    public function assertEmbeddingsPropertyEquals(string $property, string $value): void
+    {
+        $field = dot($this->data)->get('mappings.properties.embeddings.properties.' . $property, null);
+
+        $this->assertEquals($field, $value, "Failed to assert that mappings.properties.embeddings.properties.{$property} has value '{$value}' in index {$this->name}.");
+    }
+
     public function assertPropertyIsSearchAsYouType(string $property): void
     {
         $this->assertEquals(

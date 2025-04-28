@@ -37,7 +37,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->loadEnv();
 
-        $this->elasticsearchPlugins = explode(',', (string) getenv('ELASTICSEARCH_PLUGINS') ?? '');
+        $this->elasticsearchPlugins = explode(',', (string) getenv('ELASTICSEARCH_PLUGINS'));
 
         Sigmie::$version = getenv('ELASTICSEARCH_VERSION') ? ElasticsearchVersion::from(getenv('ELASTICSEARCH_VERSION')) : ElasticsearchVersion::v7;
 
