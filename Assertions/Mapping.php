@@ -44,7 +44,7 @@ trait Mapping
     {
         $field = dot($this->data)->get('mappings.properties.embeddings.properties.' . $property, null);
 
-        $this->assertEquals($field, $value, "Failed to assert that mappings.properties.embeddings.properties.{$property} has value '{$value}' in index {$this->name}.");
+        $this->assertEquals($value, $field, "Failed to assert that mappings.properties.embeddings.properties.{$property} has value '{$value}' in index {$this->name}.");
     }
 
     public function assertPropertyIsSearchAsYouType(string $property): void
